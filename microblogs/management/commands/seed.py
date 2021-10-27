@@ -1,5 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
+from microblogs.models import User
+
 
 class Command(BaseCommand):
     def __init__(self):
@@ -7,7 +9,14 @@ class Command(BaseCommand):
         self.faker = Faker('en_GB')
 
     def handle(self, *args, **options):
-        print("WARNING: The SEED command has not been implemented yet.")
+        fake = Faker()
+        for i in range (100):
+            fake_first_name = fake.first_name()
+            fake_last_name = fake.last_name()
+            fake_username = "@" + fake_first_name.lower() + fake_last_name.lower()
+            fake_email=fake_username[1:] + "@example.com"
+            fake_bio = fake.paragraph(nb_sentences=1)
+            User.objects.create(username=fake_username, first_name=fake_first_name, last_name=fake_last_name, email=fake_email, bio=fake_bio)
 
 
 #Task is to complete this seed command and add an unseed Command

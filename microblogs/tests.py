@@ -61,7 +61,7 @@ class UserModelTestCase(TestCase):
         self.user.first_name=''
         self.assert_user_is_invalid()
 
-    def test_first_name_neeed_not_to_be_unique(self):
+    def test_first_name_need_not_to_be_unique(self):
         second_user = self.create_second_user()
         self.user.first_name = second_user.first_name
         self.assert_user_is_valid()
