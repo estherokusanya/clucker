@@ -1,4 +1,4 @@
-"""Tests of the log up view."""
+"""Tests of the log in view."""
 from django.contrib import messages
 from django.test import TestCase
 from django.urls import reverse
@@ -7,7 +7,7 @@ from microblogs.models import User
 from .helpers import LogInTester
 
 class LogInViewTestCase(TestCase, LogInTester):
-    """Tests of the sign up view."""
+    """Tests of the log in view."""
 
     def setUp(self):
         self.url = reverse('log_in')
