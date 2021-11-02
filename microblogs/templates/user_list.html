@@ -1,0 +1,14 @@
+<html>
+  <head>
+    <title>Clucker</title>
+  </head>
+  <body>
+    <h1>User List</h1>
+    <p>This is where you will be able to view users.</p>
+    {% block content %}
+    {% for instance in object_list %}
+      <p><a href ="{% url 'show_user' instance.id %}" >{{ instance.username }}</p>
+    {% endfor %}
+    {% endblock %}
+  </body>
+</html>
