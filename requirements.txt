@@ -1,4 +1,5 @@
 asgiref==3.4.1
+coverage==6.1.1
 Django==3.2.8
 Faker==9.3.1
 python-dateutil==2.8.2
