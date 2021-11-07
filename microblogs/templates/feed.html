@@ -1,8 +1,8 @@
-<html>
-  <head>
-    <title>Clucker</title>
-  </head>
-  <body>
+{% extends 'base.html' %}
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class = "col-sm-12 col-md-6 offset-md-3">
     <h1>Feed</h1>
     <p>This is where you will be able to view posts.</p>
     {% block content %}
@@ -13,5 +13,7 @@
     {% endfor %}
     {% endblock %}
     <a href="{% url 'new_post' %}"><button type="submit">Create New Post</button></a>
-  </body>
-</html>
+    </div>
+  </div>
+</div>
+{% endblock %}
