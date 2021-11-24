@@ -1,19 +1,10 @@
-<html>
-  <head>
-    <title>Clucker</title>
-  </head>
-  <body>
-    <h1>User Info</h1>
-    <p>This is where you will be able to view your information.</p>
-    {% block content %}
-      <h3>{{ user.username }} - {{ user.first_name }} {{user.last_name}}</h3>
-      <p>{{user.bio}}</p>
-      <p>---------</p>
-      {% for instance in object_list %}
-        <p>{{ instance.author }} - {{instance.created_at}}</p>
-        <p>{{ instance.text}}</p>
-        <p>----------------------</p>
-      {% endfor %}
-    {% endblock %}
-  </body>
-</html>
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row content">
+    <div class="col-xs-12 col-lg-6 col-xl-4">
+      {% include 'partials/user_profile.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 from .forms import LogInForm, SignUpForm, PostForm
 from .forms import User, Post
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseForbidden
 
 def home(request):
     return render(request, 'home.html')
@@ -30,12 +32,17 @@ def new_post(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
             current_user = request.user
-            post=Post(author=current_user)
-            form=PostForm(request.POST, instance=post)
-            form.save()
-            return redirect('feed')
-    form = PostForm()
-    return render(request, 'new_post.html', {'form' : form})
+            form = PostForm(request.POST)
+            if form.is_valid():
+                text = form.cleaned_data.get('text')
+                post = Post.objects.create(author=current_user, text=text)
+                return redirect('feed')
+            else:
+                return render(request, 'feed.html', {'form': form})
+        else:
+            return redirect('log_in')
+    else:
+        return HttpResponseForbidden()
 
 def sign_up(request):
     if request.method == 'POST':
@@ -54,11 +61,19 @@ def log_out(request):
     return redirect('home')
 
 def user_list(request):
-    queryset = User.objects.all()
-    context = {"object_list" : queryset}
-    return render(request, 'user_list.html', context)
+    users = User.objects.all()
+    return render(request, 'user_list.html', {'users': users})
+
+
+# def show_user(request, user_id):
+#     person = User.objects.all().get(id=user_id)
+#     posts = Post.objects.all().filter(author=person)
+#     return render(request, 'show_user.html', {'user': person, 'object_list': posts})
 
 def show_user(request, user_id):
-    person = User.objects.all().get(id=user_id)
-    posts = Post.objects.all().filter(author=person)
-    return render(request, 'show_user.html', {'user': person, 'object_list': posts})
+    try:
+        user = User.objects.get(id=user_id)
+    except ObjectDoesNotExist:
+        return redirect('user_list')
+    else:
+        return render(request, 'show_user.html', {'user': user})

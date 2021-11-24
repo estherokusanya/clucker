@@ -1,14 +1,22 @@
-<html>
-  <head>
-    <title>Clucker</title>
-  </head>
-  <body>
-    <h1>User List</h1>
-    <p>This is where you will be able to view users.</p>
-    {% block content %}
-    {% for instance in object_list %}
-      <p><a href ="{% url 'show_user' instance.id %}" >{{ instance.username }}</p>
-    {% endfor %}
-    {% endblock %}
-  </body>
-</html>
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h1>Users</h1>
+      <table class="table">
+        {% for user in users %}
+          <tr>
+            <td>
+              <img src="{{ user.mini_gravatar }}" alt="Gravatar of {{ user.username }}" class="rounded-circle" >
+            </td>
+            <td>{{ user.full_name }}</td>
+            <td><a href="{% url 'show_user' user.id %}">{{ user.username }}</a></td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
