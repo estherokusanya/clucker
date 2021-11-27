@@ -6,7 +6,9 @@ from microblogs.models import User
 
 class UserModelTestCase(TestCase):
 
-    fixtures = ['microblogs/tests/fixtures/default_user.json']
+    fixtures = [
+        'microblogs/tests/fixtures/default_user.json',
+        'microblogs/tests/fixtures/other_users.json']
 
     """Unit tests for the User model."""
     def setUp(self):
@@ -28,7 +30,7 @@ class UserModelTestCase(TestCase):
         self.assert_user_is_invalid()
 
     def test_user_must_be_unique(self):
-        second_user = self.create_second_user()
+        second_user = User.objects.get(username='@janedoe')
         self.user.username = second_user.username
         self.assert_user_is_invalid()
 
@@ -59,7 +61,7 @@ class UserModelTestCase(TestCase):
         self.assert_user_is_invalid()
 
     def test_first_name_need_not_to_be_unique(self):
-        second_user = self.create_second_user()
+        second_user = User.objects.get(username='@janedoe')
         self.user.first_name = second_user.first_name
         self.assert_user_is_valid()
 
@@ -77,7 +79,7 @@ class UserModelTestCase(TestCase):
         self.assert_user_is_invalid()
 
     def test_last_name_need_not_to_be_unique(self):
-        second_user = self.create_second_user()
+        second_user = User.objects.get(username='@janedoe')
         self.user.last_name = second_user.last_name
         self.assert_user_is_valid()
 
@@ -95,7 +97,7 @@ class UserModelTestCase(TestCase):
         self.assert_user_is_invalid()
 
     def email_need_must_be_unique(self):
-        second_user = self.create_second_user()
+        second_user = User.objects.get(username='@janedoe')
         self.user.email = second_user.lemail
         self.assert_user_is_invalid()
 
@@ -133,20 +135,10 @@ class UserModelTestCase(TestCase):
         self.assert_user_is_invalid()
 
     def bio_need_not_to_be_unique(self):
-        second_user = self.create_second_user()
+        second_user = User.objects.get(username='@janedoe')
         self.user.bio = second_user.bio
         self.assert_user_is_valid()
 
-    def create_second_user(self):
-        user = User.objects.create_user(
-            '@janedoe',
-            first_name='Jane',
-            last_name='Doe',
-            email='janedoe@example.org',
-            password='Password123',
-            bio="This is Jane's profile."
-        )
-        return user
 
     def assert_user_is_valid(self):
         try:
