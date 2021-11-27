@@ -5,16 +5,12 @@ from microblogs.models import User
 
 
 class UserModelTestCase(TestCase):
+
+    fixtures = ['microblogs/tests/fixtures/default_user.json']
+
     """Unit tests for the User model."""
     def setUp(self):
-        self.user= User.objects.create_user(
-            '@johndoe',
-            first_name='John',
-            last_name='Doe',
-            email='johndoe@example.org',
-            password='Password123',
-            bio='The quick brown fox jumps over the lazy dog.'
-        )
+        self.user=User.objects.get(username='@johndoe')
 
     def test_valid_user(self):
         self.assert_user_is_valid()
