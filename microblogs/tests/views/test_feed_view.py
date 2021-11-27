@@ -3,7 +3,6 @@ from django.test import TestCase
 from django.urls import reverse
 from microblogs.forms import PostForm
 
-
 class FeedViewTestCase(TestCase):
     """Tests of the feed view."""
 

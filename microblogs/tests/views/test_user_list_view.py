@@ -19,6 +19,9 @@ class UserListTest(TestCase):
             self.assertContains(response, f'@user{user_id}')
             self.assertContains(response, f'First{user_id}')
             self.assertContains(response, f'Last{user_id}')
+            user = User.objects.get(username=f'@user{user_id}')
+            user_url = reverse('show_user', kwargs={'user_id': user.id})
+            self.assertContains(response, user_url)
 
     def _create_test_users(self, user_count=10):
         for user_id in range(user_count):
@@ -29,9 +32,3 @@ class UserListTest(TestCase):
                 last_name=f'Last{user_id}',
                 bio=f'Bio {user_id}',
             )
-    
-    def test_get_user_list(self):
-        for user_id in range(15):
-            user = User.objects.get(username=f'@user{user_id}')
-            user_url = reverse('show_user', kwargs={'user_id': user.id})
-            self.assertContains(response, user_url)
