@@ -47,6 +47,7 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
+@login_required
 def show_user(request, user_id):
     try:
         user = User.objects.get(id=user_id)
